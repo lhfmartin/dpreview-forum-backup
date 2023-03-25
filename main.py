@@ -29,8 +29,14 @@ for thread_number in range(THREAD_FROM, THREAD_TO + 1):
                 f"https://www.dpreview.com/forums/thread/{thread_number}?page={page_number}",
                 headers=REQUEST_HEADERS,
             )
-            res.raise_for_status()
         except requests.exceptions.RequestException as e:
+            with open(os.path.join(OUTPUT_FOLDER, f"failed.txt"), "a+") as f:
+                f.write(f"{thread_number}\t{e}\n")
+            break
+
+        try:
+            res.raise_for_status()
+        except requests.exceptions.HTTPError as e:
             if res.status_code == 429:
                 raise e
             with open(os.path.join(OUTPUT_FOLDER, f"failed.txt"), "a+") as f:
