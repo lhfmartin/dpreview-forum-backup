@@ -13,6 +13,8 @@ THREAD_FROM = int(sys.argv[1])
 THREAD_TO = int(sys.argv[2])
 
 
+s = requests.Session()
+
 for thread_number in range(THREAD_FROM, THREAD_TO + 1):
     thread_output_folder = os.path.join(OUTPUT_FOLDER, f"thread_{thread_number}")
     print(f"Trying to download all pages of thread {thread_number}")
@@ -25,7 +27,7 @@ for thread_number in range(THREAD_FROM, THREAD_TO + 1):
         print(f"Downloading thread {thread_number} page {page_number}")
 
         try:
-            res = requests.get(
+            res = s.get(
                 f"https://www.dpreview.com/forums/thread/{thread_number}?page={page_number}",
                 headers=REQUEST_HEADERS,
             )
