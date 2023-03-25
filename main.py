@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 import sys
+import time
 import requests
 
 
@@ -40,7 +41,12 @@ for thread_number in range(THREAD_FROM, THREAD_TO + 1):
             res.raise_for_status()
         except requests.exceptions.HTTPError as e:
             if res.status_code == 429:
-                raise e
+                print(
+                    "Made too much requests to the site in a short time, taking a 30-second rest"
+                )
+                print(e)
+                time.sleep(30)
+                continue
             with open(os.path.join(OUTPUT_FOLDER, f"failed.txt"), "a+") as f:
                 f.write(f"{thread_number}\t{e}\n")
 
