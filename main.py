@@ -31,6 +31,8 @@ for thread_number in range(THREAD_FROM, THREAD_TO + 1):
             )
             res.raise_for_status()
         except requests.exceptions.RequestException as e:
+            if res.status_code == 429:
+                raise e
             with open(os.path.join(OUTPUT_FOLDER, f"failed.txt"), "a+") as f:
                 f.write(f"{thread_number}\t{e}\n")
 
