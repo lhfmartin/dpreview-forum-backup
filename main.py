@@ -17,7 +17,9 @@ THREAD_TO = int(sys.argv[2])
 s = requests.Session()
 
 for thread_number in range(THREAD_FROM, THREAD_TO + 1):
-    thread_output_folder = os.path.join(OUTPUT_FOLDER, f"thread_{thread_number}")
+    thread_output_folder = os.path.join(
+        OUTPUT_FOLDER, f"thread_{thread_number}_(t_{int(time.time())})"
+    )
     print(f"Trying to download all pages of thread {thread_number}")
     Path(thread_output_folder).mkdir(parents=True, exist_ok=True)
 
